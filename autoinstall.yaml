@@ -1,0 +1,45 @@
+#cloud-config
+autoinstall:
+    version: 1
+    identity:
+        realname: 'Felipe Penha'
+        hostname: ubuntu-desktop
+        username: loyfus
+        password: '$y$j9T$vXZbJkI3l7.Dq9W4$D7eUw5YgTtF2lF5N4b/ivUFzuv23dlZg0BRmGdAhtOI'
+    locale: pt_BR.utf8
+    keyboard:
+        layout: br
+    timezone: "America/Sao_Paulo"
+    packages:
+        - git
+        - wget
+        - nodejs
+        - npm
+        - obs-studio
+        - solaar
+        - vlc
+        - transmission-gtk
+    snaps:
+        - name: spotify
+          channel: stable
+          classic: false
+        - name: code
+          channel: stable
+          classic: true
+        - name: beekeeper-studio
+          channel: stable
+          classic: false
+        - name: postman
+          channel: stable
+          classic: true
+    codecs:
+        install: true
+    drivers:
+        install: true
+    updates: all
+    shutdown: reboot
+    late-commands:
+        # Baixa o pacote .deb do Google Chrome para /target/tmp
+        - wget -O /target/tmp/google-chrome.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+        # Instala o Google Chrome; em caso de dependências faltantes, corrige com apt-get
+        - curtin in-target --target=/target dpkg -i /tmp/google-chrome.deb || curtin in-target --target=/target apt-get install -yf
