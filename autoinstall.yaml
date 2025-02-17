@@ -38,8 +38,3 @@ autoinstall:
         install: true
     updates: all
     shutdown: reboot
-    late-commands:
-        # Baixa o pacote .deb do Google Chrome para /target/tmp
-        - wget -O /target/tmp/google-chrome.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-        # Instala o Google Chrome; em caso de dependências faltantes, corrige com apt-get
-        - curtin in-target --target=/target dpkg -i /tmp/google-chrome.deb || curtin in-target --target=/target apt-get install -yf
